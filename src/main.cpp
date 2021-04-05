@@ -49,25 +49,26 @@ void BTcallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
 void setup() {
   Serial.begin(9600);
 
-/*
+
   Serial.print("Initializing SD card...");
   if (!SD.begin(5)) {
     Serial.println("initialization failed!");
     return;
   }
   Serial.println("initialization done.");
-*/
+
 
   pinMode(22, OUTPUT);
 
-  //File root = SD.open("/");
-  //root.rewindDirectory();
-  //printDirectory(root, 0); //Display the card contents
-  //root.close();
+  File root = SD.open("/");
+  root.rewindDirectory();
+  printDirectory(root, 0); //Display the card contents
+  root.close();
 
 
   SerialBT.register_callback(BTcallback);
-  SerialBT.begin("WDGFORKLIFT_A2234436"); //Bluetooth device name Max. 31 Bytes
+  //SerialBT.begin("WDGFORKLIFT_A2234436"); //Bluetooth device name Max. 31 Bytes
+  SerialBT.begin("WDGTOYOTA_A125336"); //Bluetooth device name Max. 31 Bytes
   Serial.println("The device started, now you can pair it with bluetooth!");
 }
 
@@ -85,7 +86,7 @@ void loop() {
 
     // re-open the file for reading:
 
-    /*
+    
     myFile = SD.open(fileName);
     if (myFile) {
       //Serial.println(fileName + ":");
@@ -99,10 +100,11 @@ void loop() {
       Serial.println("Done!");
 
     }
-    else{Serial.println("File not found.");}
-    */
-    Serial.println("File not found.");
-    SendString("FNF");
+    else{
+      Serial.println("File not found.");
+      SendString("FNF");
+    }
+    
 
   }
 
